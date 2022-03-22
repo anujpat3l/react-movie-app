@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Alert, Button, Card } from "react-bootstrap";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { Container, Alert, Button, Card } from 'react-bootstrap';
+import axios from 'axios';
 
-import SearchBar from "../components/Searchbar";
-import Loader from "../components/Loader";
+import SearchBar from '../components/Searchbar';
+import Loader from '../components/Loader';
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -16,18 +16,18 @@ function Home() {
   const fetchMovies = async () => {
     try {
       setLoading(true);
-      const response = await axios("http://localhost:4000/movies");
+      const response = await axios('http://localhost:4000/movies');
       setLoading(false);
       setMovies(response.data);
       setError(false);
     } catch (e) {
       setLoading(false);
-      setError(" Server Error");
+      setError(' Server Error');
     }
   };
 
   return (
-    <>
+    <Container>
       <SearchBar onClickRefresh={fetchMovies} />
       {error && <Alert variant="danger">{error}</Alert>}
       {!loading ? (
@@ -47,7 +47,7 @@ function Home() {
       ) : (
         <Loader />
       )}
-    </>
+    </Container>
   );
 }
 
