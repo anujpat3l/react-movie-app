@@ -10,6 +10,7 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState([null]);
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +20,9 @@ function Home() {
   const fetchMovies = async () => {
     try {
       setLoading(true);
-      const response = await axios('http://localhost:4000/api/movies');
+      const response = await axios(
+        `http://localhost:4000/api/movies?searchText=${searchText}`
+      );
       setLoading(false);
       setMovies(response.data);
       setError(false);
@@ -34,7 +37,7 @@ function Home() {
   };
   return (
     <Container>
-      <SearchBar onClickRefresh={fetchMovies} />
+      <SearchBar onClickRefresh={fetchMovies} setSearchText={setSearchText} />
       {error && <Alert variant="danger">{error}</Alert>}
       {!loading ? (
         <div className="d-flex flex-wrap m-5 justify-content-center">

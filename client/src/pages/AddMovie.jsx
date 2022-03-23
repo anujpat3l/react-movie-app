@@ -8,7 +8,7 @@ const AddMovie = () => {
     const { value, name, type } = event.target;
     setFormValues({
       ...formValues,
-      [name]: type == 'number' ? Number(value) : value,
+      [name]: type === 'number' ? Number(value) : value,
     });
   };
   const onClickSubmit = () => {

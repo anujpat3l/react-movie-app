@@ -1,17 +1,36 @@
-const { movies } = require('../constants/movies');
+const { Movie } = require('../models');
 
-const getAllMovies = (req, res) => {
-  res.json(movies);
+const getAllMovies = async (req, res) => {
+  const { searchText } = req.query;
+  try {
+    const conditions = searchText
+      ? {
+          where: {
+            title: searchText,
+          },
+        }
+      : {};
+    const movies = await Movie.findAll(conditions);
+    return res.json(movies);
+  } catch (e) {
+    res.status(500).json({
+      message: e.message,
+    });
+  }
 };
 
-const getMovie = (req, res) => {
+const getMovie = async (req, res) => {
   const { movieId } = req.params;
   try {
-    const movie = movies.filter((movie) => movie.id === Number(movieId));
-    if (movie.length === 0) throw new Error('Movie not found');
+    const movie = await Movie.findOne({
+      where: {
+        id: Number(movieId),
+      },
+    });
+    if (!movie) throw new Error('Movie not found');
     res.json({
       message: 'Movie Found!',
-      movie: movie && movie[0],
+      movie,
     });
   } catch (e) {
     res.status(404).json({
