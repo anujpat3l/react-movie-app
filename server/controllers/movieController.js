@@ -1,12 +1,14 @@
 const { Movie } = require('../models');
-
+const { Op } = require('sequelize');
 const getAllMovies = async (req, res) => {
   const { searchText } = req.query;
   try {
     const conditions = searchText
       ? {
           where: {
-            title: searchText,
+            title: {
+              [Op.iRegexp]: searchText,
+            },
           },
         }
       : {};

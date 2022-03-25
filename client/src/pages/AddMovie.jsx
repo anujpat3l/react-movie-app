@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddMovie = () => {
   const [formValues, setFormValues] = useState({});
+  const navigate = useNavigate();
 
   const onChangeFromField = (event) => {
     const { value, name, type } = event.target;
@@ -11,8 +14,17 @@ const AddMovie = () => {
       [name]: type === 'number' ? Number(value) : value,
     });
   };
-  const onClickSubmit = () => {
-    console.log(formValues);
+  const onClickSubmit = async () => {
+    try {
+      await axios({
+        url: 'http://localhost:4000/api/movies',
+        method: 'POST',
+        data: formValues,
+      });
+      navigate(`/`);
+    } catch (e) {
+      alert('Add Movie Failed!');
+    }
   };
   return (
     <Card>
