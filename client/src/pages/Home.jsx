@@ -42,17 +42,24 @@ function Home() {
       {!loading ? (
         <div className="d-flex flex-wrap m-5 justify-content-center">
           {movies.map((movie) => {
-            const { title, id } = movie;
+            const { title, id, poster, rating } = movie;
             return (
-              <Card key={id} className="m-3 movie-card">
-                <Card.Body>
-                  <Card.Title>{title}</Card.Title>
-                  <Card.Text>This movie was released in YEAR.</Card.Text>
+              <Card className="m-3" style={{ width: '15rem' }}>
+                <Card.Body key={id}>
+                  <img
+                    src={poster}
+                    key={id}
+                    style={{ width: '13rem', height: '200px' }}
+                  />
+                  <div className="d-flex">
+                    <Card.Title style={{ width: '100%' }}>{title}</Card.Title>
+                    <span className="d-flex ">{rating}</span>
+                  </div>
                   <Button
-                    variant="success"
+                    variant="primary"
                     onClick={() => onClickViewMovie(movie)}
                   >
-                    View Movie
+                    View Movies
                   </Button>
                 </Card.Body>
               </Card>
